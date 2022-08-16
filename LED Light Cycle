@@ -1,0 +1,122 @@
+#include <FastLED.h>
+#define NUM_LEDS  20
+#define Num_Strip1 60
+#define Button 2
+#define LED_PIN   7
+CRGB leds[NUM_LEDS];
+CRGB Strip1[Num_Strip1];
+
+int buzzer_pin = 13; // What pin is the buzzer connected to
+int i = 0;
+
+int Program = 1;
+int maxProgram = 1;
+int Num = 0;
+int Run = 0;
+int ButtonDelay = 500;
+int Program0Delay = 100;
+int Program1Delay = 100;
+int Program2Delay = 10;
+
+unsigned long ButtonTime = 0;
+unsigned long DelayTime = 0;
+
+void setup()
+{
+  pinMode(Button, INPUT_PULLUP);
+  FastLED.addLeds<NEOPIXEL,7>(Strip1, Num_Strip1);
+  Serial.begin(9600);
+}
+
+void loop()
+{
+if(digitalRead(Button) == LOW && millis() - ButtonTime > ButtonDelay)
+{
+  ButtonTime = millis();
+  Num = 0;
+  Run = 0;
+  if(Program < maxProgram)
+  {
+    Program++;
+    for(int Num = 0; Num < Num_Strip1; Num++)
+    {
+      Strip1[Num] = CHSV(255, 255, 0);
+    }
+    FastLED.show();
+  }
+  else
+  {
+    Program = 1;
+    FastLED.addLeds<WS2812B, LED_PIN, GRB>(leds, NUM_LEDS);
+  FastLED.setBrightness(10);
+
+ fill_solid(leds, 20, CRGB::Green);{
+ delay(0);
+  }
+
+  for(int i = 0; i < NUM_LEDS; i++) {
+    leds[i] = CRGB::Green;
+    FastLED.show();
+    delay(1000);
+    leds[i] = CRGB::Green;
+  }
+ fill_solid(leds, 20, CRGB::Green);{
+ delay(0);
+ }
+   for(int i = 0; i < NUM_LEDS; i++) {
+    leds[i] = CRGB::Green;
+    FastLED.show();
+    delay(1000);
+    leds[i] = CRGB::Yellow;
+  }
+ fill_solid(leds, 20, CRGB::Yellow);{
+ delay(0);
+ }
+  for(int i = 0; i < NUM_LEDS; i++) {
+    leds[i] = CRGB::Yellow;
+    FastLED.show();
+    delay(500);
+    leds[i] = CRGB::Red;
+  }
+    for(int i = 0; i < NUM_LEDS; i++) {
+    leds[i] = CRGB::White;
+    FastLED.show();
+    delay(100);
+    leds[i] = CRGB::Red;
+  }
+    for(int i = 0; i < NUM_LEDS; i++) {
+    leds[i] = CRGB::Black;
+    FastLED.show();
+    delay(0);
+    leds[i] = CRGB::Black;
+
+    {
+  // Play low to high frequencies
+  for(i = 25; i < 120; i++)
+  {
+    tone(buzzer_pin, 20 * i, 200); // Create a tone/note from 500 to 2400 Hz
+    delay(20);
+  }
+  
+  // Now play high to low frequencies
+  for(i = 120; i >= 25; i--)
+  {
+    tone (buzzer_pin, 20 * i, 200); // Create a tone/note from 2400 Hz to 500 hz
+    delay(20);
+  }
+  {  
+for(i = 25; i < 120; i++)
+      {
+    tone(buzzer_pin, 20 * i, 200); // Create a tone/note from 500 to 2400 Hz
+    delay(20);
+  }
+  
+  // Now play high to low frequencies
+  for(i = 120; i >= 25; i--)
+  {
+    tone (buzzer_pin, 20 * i, 200); // Create a tone/note from 2400 Hz to 500 hz
+    delay(20);
+  }
+}
+
+    }}}}}
